@@ -2,6 +2,7 @@ import { Inject, Controller, Provide, Query,Get, Plugin } from '@midwayjs/decora
 import { Context } from 'egg';
 import { Redis } from 'ioredis'
 import { DoctorService } from '../service/doctor';
+import { PatientService } from '../service/patient';
 
 @Provide()
 @Controller('/user')
@@ -14,6 +15,9 @@ export class UserController {
 
   @Inject()
   doctorService: DoctorService;
+
+  @Inject()
+  patientServicve: PatientService;
 
   @Get('/register')
   async register(@Query() wxid: string, @Query() type: string ): Promise<{success: boolean , message: string, data: object}> {
@@ -30,6 +34,7 @@ export class UserController {
             break
         case '"paitient"':
             console.log("paitient")
+            result = await this.patientServicve.reigster(wxid)
             break
     }
 

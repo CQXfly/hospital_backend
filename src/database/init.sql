@@ -12,8 +12,8 @@ CREATE TABLE `checkin` (
   `date` datetime,
   `lesson_id` int NOT NULL,
   `training_time` int  DEFAULT 0,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp  DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp  DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -81,7 +81,7 @@ CREATE TABLE `patient` (
   `contact` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
   `age` int NOT NULL,
-  `doctor_id` int NOT NULL,
+  `doctor_id` int NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)

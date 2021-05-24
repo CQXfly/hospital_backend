@@ -31,11 +31,11 @@ export class APIController {
   }
 
   @Post('/get_user')
-  async getUser(@Query() uid: string): Promise<IGetUserResponse> {
+  async getUser(@Query() uid: string): Promise<any> {
     this.redis.get("123", (err, res) => {
       this.ctx.logger.debug(res)
     })
-    const user = await this.userService.getUser({ uid });
-    return { success: true, message: 'OK', data: user };
+    // const user = await this.userService.getUser({ uid });
+    return { success: true, message: 'OK', data: {} };
   }
 }

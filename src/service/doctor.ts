@@ -28,5 +28,10 @@ export class DoctorService {
 
     async getUserCheckIn(userid: string, start: string, end: string ) {
         
-    }    
+    }
+
+    async findDoctorsShouldReview() {
+        // 是否是超级管理员
+        return await this.doctorModel.find({review: false})
+    }
 }

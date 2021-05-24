@@ -1,5 +1,4 @@
 import { Provide } from '@midwayjs/decorator';
-import { IUserOptions } from '../interface';
 import { InjectEntityModel } from '@midwayjs/orm';
 import { DoctorModel } from '../model/doctor'
 import { PatientModel } from '../model/patient'
@@ -13,14 +12,6 @@ export class UserService {
   @InjectEntityModel(PatientModel)
   paientModel: Repository<PatientModel>;
 
-  async getUser(options: IUserOptions) {
-    return {
-      uid: options.uid,
-      username: 'mockedName',
-      phone: '12345678901',
-      email: 'xxx.xxx@xxx.com',
-    }
-  }
 
   async findUserInfo(wxid: string): Promise<[DoctorModel, PatientModel]> {
     return Promise.all(
