@@ -17,26 +17,38 @@ export default (appInfo: EggAppInfo) => {
     replaceEggLogger: true,
   };
 
-  config.orm = {
+    config.orm = {
     type: 'mysql',
-    host: '',
+    host: '118.24.101.213',
     port: 3306,
-    username: 'fox',  //root， Fox_123456
-    password: 'Fox-123456',
+    username: 'root',  //root， Fox_123456
+    password: '758214335Hw',
     database: 'foxTest',
     synchronize: false,
     logging: false,
     timezone: '+08:00',
   };
+
+  // config.orm = {
+  //   type: 'mysql',
+  //   host: '',
+  //   port: 3306,
+  //   username: 'fox',  //root， Fox_123456
+  //   password: 'Fox-123456',
+  //   database: 'foxTest',
+  //   synchronize: false,
+  //   logging: false,
+  //   timezone: '+08:00',
+  // };
   
-  config.redis = {
-    client: {
-      port: 6379,
-      host: 'localhost',
-      password: '',
-      db: null,
-    },
-  };
+  // config.redis = {
+  //   client: {
+  //     port: 6379,
+  //     host: 'localhost',
+  //     password: '',
+  //     db: null,
+  //   },
+  // };
 
   return config;
 };
