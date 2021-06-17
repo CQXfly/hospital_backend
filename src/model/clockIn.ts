@@ -9,9 +9,9 @@ import {
 import { BaseModel } from './base';
 
 @EntityModel({
-    name: 'checkin',
+    name: 'clockin',
 })
-export class CheckInModel extends BaseModel {
+export class ClockInModel extends BaseModel {
     @PrimaryGeneratedColumn({
         type: 'integer',
       })
@@ -25,7 +25,7 @@ export class CheckInModel extends BaseModel {
       patientId: string;
 
       @Column({
-        type: 'date',
+        type: 'timestamp',
         name: 'Date',
         comment: '打卡日期',
       })
@@ -43,5 +43,5 @@ export class CheckInModel extends BaseModel {
         name: 'training_time',
         comment: '课程训练时长',
       })
-      training_time: string;
+      training_time: number;
 }

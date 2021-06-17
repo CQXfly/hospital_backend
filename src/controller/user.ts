@@ -1,8 +1,8 @@
-import { Inject, Controller, Provide, Query,Get } from '@midwayjs/decorator';
+import { Inject, Controller, Provide,Post, Body } from '@midwayjs/decorator';
 import { Context } from 'egg';
+import { IResponse, response } from '../common/helper';
 // import { Redis } from 'ioredis'
-import { DoctorService } from '../service/doctor';
-import { PatientService } from '../service/patient';
+import { UserService } from '../service/user';
 
 @Provide()
 @Controller('/user')
@@ -14,23 +14,48 @@ export class UserController {
   // redis: Redis;
 
   @Inject()
-  doctorService: DoctorService;
+  uerService: UserService;
 
-  @Inject()
-  patientServicve: PatientService;
+  @Post('/login')
+  async login(@Body() wxid: string): Promise<IResponse> {
 
-  @Get('/register')
-  async register(@Query() wxid: string, @Query() type: string ): Promise<{success: boolean , message: string, data: object}> {
-    let result;
-    switch (type) {
-        case '"doctor"':
-            result = await this.doctorService.reigster(wxid)
-            break
-        case '"paitient"':
-            result = await this.patientServicve.reigster(wxid)
-            break
+    try {
+      const result = await this.uerService.login(wxid)
+      return response(result)
+    } catch (error) {
+      return response({}, error.message, 400)
     }
+  }
 
-    return { success: true, message: 'OK', data: result };    
+  @Post('/register/patient')
+  async reigsterPatient(
+    @Body() wxid: string, 
+    @Body() age: number,
+    @Body() name: string,
+    @Body() address?: string,
+    @Body() contact?: string,
+    @Body() gender?: boolean ): Promise<IResponse> {
+
+    try {
+      const result = await this.uerService.reigsterPatient(wxid, age, name, address, contact, gender)
+      return response(result)
+    } catch (error) {
+       return  response({}, error.message, 400)
+    }
+  }
+
+  @Post('/register/doctor')
+  async registerDoctor(
+    @Body() wxid: string, 
+    @Body() name: string,
+    @Body() contact?: string,
+    @Body() jobNumber?: string): Promise<IResponse> {
+
+    try {
+      const result = await this.uerService.reigsterDoctor(wxid, name, contact, jobNumber)
+      return response(result)
+    } catch (error) {
+       return  response({}, error.message, 400)
+    }
   }
 }

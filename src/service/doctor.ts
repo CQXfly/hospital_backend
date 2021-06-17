@@ -12,7 +12,7 @@ export class DoctorService {
 
         let results = await this.doctorModel.find({wxID: wxid})
         if (results.length > 0) {
-            return "go ahead"
+            throw new Error("has registered")
         }
         let doctor = new DoctorModel()
 

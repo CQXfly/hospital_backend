@@ -2,7 +2,9 @@ import { EggAppConfig, EggAppInfo, PowerPartial } from 'egg';
 import { ConnectionOptions } from 'typeorm';
 
 export type DefaultConfig = PowerPartial<EggAppConfig>;
-
+export const security = {
+  csrf: false,
+};
 export default (appInfo: EggAppInfo) => {
   const config = {} as DefaultConfig;
 
@@ -11,6 +13,15 @@ export default (appInfo: EggAppInfo) => {
 
   // add your config here
   config.middleware = [];
+
+  config.security = security
+
+  // config.security = {
+  //   domainWhiteList: [ 'http://localhost:7001' ],
+  //   csrf: {
+  //     headerName: '_csrf'
+  //   },
+  // }
 
   config.midwayFeature = {
     // true 代表使用 midway logger

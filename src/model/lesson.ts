@@ -25,6 +25,13 @@ export class LessonModel extends BaseModel {
 
       @Column({
         type: 'varchar',
+        name: 'image_url',
+        comment: '图片链接',
+      })
+      imageUrl: string;
+
+      @Column({
+        type: 'varchar',
         name: 'title',
         comment: '课程标题',
       })

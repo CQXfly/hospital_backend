@@ -22,7 +22,7 @@ export class PatientModel extends BaseModel {
         name: 'gender',
         comment: '性别',
       })
-      gender: number// 0| 1; 
+      gender: boolean// 0| 1; 
 
       @Column({
         type: 'varchar',

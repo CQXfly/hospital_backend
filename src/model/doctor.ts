@@ -18,7 +18,7 @@ export class DoctorModel extends BaseModel {
       id: string;
 
       @Column({
-        type: 'integer',
+        type: 'varchar',
         name: 'job_number',
         comment: '工号',
       })
