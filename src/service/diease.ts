@@ -37,7 +37,8 @@ export class DieaseService {
         .where("diease.doctor_id = :id", {id: doctorId})
         console.log(paitients)
     }
-
-    
  
+    async isDocotor(wxid: string) {
+        return false
+    }
 }

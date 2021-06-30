@@ -23,7 +23,7 @@ CREATE TABLE `clockin` (
 DROP TABLE IF EXISTS `diease`;
 CREATE TABLE `diease` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `doctor_id` int NOT NULL,
+  `doctor_id` int NULL DEFAULT NULL,
   `paient_id` int NOT NULL,
   `type` varchar(50) NOT NULL,
   `info` varchar(100) NOT NULL,
@@ -59,6 +59,7 @@ CREATE TABLE `doctor` (
 DROP TABLE IF EXISTS `lesson`;
 CREATE TABLE `lesson` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `video_length` int unsigned NOT NULL DEFAULT 0,
   `video_url` varchar(255) NOT NULL,
   `image_url` varchar(255) NOT NULL,
   `title` varchar(50)  NOT NULL,
@@ -105,6 +106,19 @@ CREATE TABLE `permission` (
   `check_paitient_diease` boolean NOT NULL,
   `check_paitient_info` boolean NOT NULL,
   `check_paitient_privacy` boolean NOT NULL,
+  `created_at` timestamp NOT NULL  DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Table structure for disease_photo
+-- ----------------------------
+DROP TABLE IF EXISTS `diease_photo`;
+CREATE TABLE `diease_photo` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `diease_id` int NOT NULL,
+  `url` varchar(255) NULL DEFAULT NULL,
   `created_at` timestamp NOT NULL  DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)

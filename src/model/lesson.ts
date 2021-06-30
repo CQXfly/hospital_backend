@@ -24,6 +24,13 @@ export class LessonModel extends BaseModel {
       videoUrl: string;
 
       @Column({
+        type: 'integer',
+        name: 'video_length',
+        comment: '视频长度 10 分钟',
+      })
+      videoDuration: number;
+
+      @Column({
         type: 'varchar',
         name: 'image_url',
         comment: '图片链接',

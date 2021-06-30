@@ -26,6 +26,20 @@ export class ClockInController {
     return { success: true, message: 'OK', data: {uid: "123"} };    
   }
 
+  @Get('/record')
+  async record(
+    @Query() uid: string, 
+    @Query() startDate: string,
+    @Query() endDate: string
+   ): Promise<IResponse> {
+
+    // const user = await this.userService.getUser({ uid });
+    const r = await this.clockInService.getUserCheckInRecord(uid, startDate, endDate)
+
+    return response(r)
+    
+  }
+
   @Post('/update')
   async getUser(
     @Body() uid: string, 

@@ -12,6 +12,4 @@ export class PermissionService {
     async updateLesson(lessonid?: string) {
 
     }
-
-    
 }

@@ -3,6 +3,7 @@ import { InjectEntityModel } from '@midwayjs/orm';
 import { PatientModel } from '../model/patient'
 import { ClockInModel } from '../model/clockIn'
 import { Repository } from 'typeorm';
+import moment = require('moment');
 
 @Provide()
 export class ClockInService {
@@ -30,7 +31,19 @@ export class ClockInService {
         this.clockInModel.find({patientId: userid})
     }
 
-    async getUserCheckIn(userid: string, start: string, end: string ) {
+    async getUserCheckInRecord(userid: string, start: string, end: string ) {
+        const result = await this.clockInModel.createQueryBuilder("clock")
+        .where("clock.patient_id = :userid", {userid})
+        .andWhere("clock.date > :start", {start})
+        .andWhere("clock.date < :end", {end})
+        .getMany()
         
+        
+        // 数据处理 按照日期分类 [{day: duration}]
+        let rr = []
+        result.forEach(element => {
+            rr.push(moment(element.date).format("MM-DD"))
+        });
+        return rr
     }    
 }

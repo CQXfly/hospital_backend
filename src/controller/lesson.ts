@@ -14,9 +14,15 @@ export class LessonController {
     lessonService: LessonService
 
     @Post('/create')
-    async createLesson(@Body() title: string, @Body() info: string, @Body() video_url: string, @Body() image_url: string) : Promise<IResponse> {
+    async createLesson(
+        @Body() title: string, 
+        @Body() info: string, 
+        @Body() video_url: string, 
+        @Body() image_url: string, 
+        @Body() video_duration: number
+        ) : Promise<IResponse> {
         try {
-            let result = await this.lessonService.addLesson(title,image_url, video_url, info)
+            let result = await this.lessonService.addLesson(title,image_url, video_url, info, video_duration)
             return response(result) 
         } catch (error) {
             return response({}, error.message, 400)

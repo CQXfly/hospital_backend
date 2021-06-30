@@ -13,9 +13,9 @@ export class LessonService {
 
     }
 
-    async addLesson(title: string, image_url: string, video_url: string,info: string ) {
+    async addLesson(title: string, image_url: string, video_url: string,info: string, video_duration: number ) {
         try {
-            let result = await this.lessonModel.save({videoUrl: video_url, info: info, title: title, imageUrl: image_url})
+            let result = await this.lessonModel.save({videoUrl: video_url, info: info, title: title, imageUrl: image_url, video_duration: video_duration})
             return result 
         } catch (error) {
             return {}
