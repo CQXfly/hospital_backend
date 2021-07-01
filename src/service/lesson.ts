@@ -23,7 +23,7 @@ export class LessonService {
         
     }
 
-    async lesson(page: number = 0, limitSize = 2) {
+    async lesson(page: number = 0, limitSize = 6) {
         let lessons =  await this.lessonModel
         .createQueryBuilder("user")
         .select()
