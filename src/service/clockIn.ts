@@ -25,25 +25,52 @@ export class ClockInService {
         checkIn.patientId = userid
         checkIn.training_time = duration
         checkIn.lessonId = lessonid
-        return await this.clockInModel.save(checkIn)
+        // check 该lessonid 下是否已经有了打卡记录
+        let hasRecordModel = await this.getCheckInRecordWithLessonId(userid, lessonid, date)
+        if (hasRecordModel != undefined) {
+            return await this.clockInModel.update(hasRecordModel, checkIn)
+        } else {
+            return await this.clockInModel.save(checkIn)
+        }
+        
     }
+
+    async getCheckInRecordWithLessonId(userid: string, lessonId: string, date: string) {
+        let timestamp = moment(date).valueOf()
+        let dayTimestamp = timestamp + 60 * 60 * 24 * 1000 + 1
+        let dayDate = moment(dayTimestamp).format()
+        return await this.clockInModel.createQueryBuilder("clock")
+        .where("clock.patient_id = :userid", {userid})
+        .andWhere("clock.lesson_id = :lessonId", {lessonId})
+        .andWhere("clock.date >= :date", {date})
+        .andWhere("clock.date <= :dayDate", {dayDate})
+        .getOne()
+    }
+
     async getCheckIn(userid: string) {
         this.clockInModel.find({patientId: userid})
     }
 
+    // 获取每日打卡的数据，相同日期的数据会合并掉
     async getUserCheckInRecord(userid: string, start: string, end: string ) {
         const result = await this.clockInModel.createQueryBuilder("clock")
         .where("clock.patient_id = :userid", {userid})
-        .andWhere("clock.date > :start", {start})
-        .andWhere("clock.date < :end", {end})
+        .andWhere("clock.date >= :start", {start})
+        .andWhere("clock.date <= :end", {end})
         .getMany()
         
-        
         // 数据处理 按照日期分类 [{day: duration}]
-        let rr = []
+        let dateResult = []
         result.forEach(element => {
-            rr.push(moment(element.date).format("MM-DD"))
+            let date = moment(element.date).format("MM-DD")
+            if (!dateResult.includes(date)) {
+                dateResult.push(date)
+            } 
         });
-        return rr
-    }    
+        return dateResult
+    }
+
+    async GetUserCheckInRecordWithLessonId() {
+        
+    }
 }
