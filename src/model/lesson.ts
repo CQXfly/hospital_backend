@@ -45,7 +45,7 @@ export class LessonModel extends BaseModel {
       title: string;
 
       @Column({
-        type: 'varchar',
+        type: 'text',
         name: 'info',
         comment: '课程信息',
       })

@@ -38,4 +38,14 @@ export class LessonController {
             return response({}, error.message, 400)
         }
     }
+
+    @Get('/detail')
+    async detail(@Query() lessonId: string) {
+        try {
+            let result = await this.lessonService.lessonDetail(lessonId)
+            return response(result)
+        } catch (error) {
+            return response({}, error.message, 400)
+        }
+    }
 }

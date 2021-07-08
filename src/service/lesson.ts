@@ -31,6 +31,20 @@ export class LessonService {
         .offset((page - 1) * limitSize )
         .limit(limitSize)
         .getMany()
-        return lessons
+        
+        return lessons.map(e=>{
+            let ele : any = {}
+            ele.updatedAt = e.updatedAt
+            ele.id = e.id
+            ele.imageUrl = e.imageUrl
+            ele.videoDuration = e.videoDuration
+            ele.title = e.title
+            return ele
+        })
+    }
+
+    async lessonDetail(lessonId: string) {
+        let lesson = await this.lessonModel.findOne({id: lessonId})
+        return lesson
     }
 }

@@ -63,7 +63,7 @@ CREATE TABLE `lesson` (
   `video_url` varchar(255) NOT NULL,
   `image_url` varchar(255) NOT NULL,
   `title` varchar(50)  NOT NULL,
-  `info` varchar(255) NOT NULL,
+  `info` text NOT NULL,
   `created_at` timestamp NOT NULL  DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
