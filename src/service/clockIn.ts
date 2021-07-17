@@ -28,21 +28,24 @@ export class ClockInService {
         // check 该lessonid 下是否已经有了打卡记录
         let hasRecordModel = await this.getCheckInRecordWithLessonId(userid, lessonid, date)
         if (hasRecordModel != undefined) {
-            return await this.clockInModel.update(hasRecordModel, checkIn)
+            await this.clockInModel.update(hasRecordModel, checkIn)
+            return {}
         } else {
-            return await this.clockInModel.save(checkIn)
+            await this.clockInModel.save(checkIn)
+            return {}
         }
         
     }
 
     async getCheckInRecordWithLessonId(userid: string, lessonId: string, date: string) {
-        let timestamp = moment(date).valueOf()
+        let beginDate = moment(moment(date).valueOf()).format("yyyy-MM-DD")
+        let timestamp =  moment(beginDate).valueOf()
         let dayTimestamp = timestamp + 60 * 60 * 24 * 1000 + 1
         let dayDate = moment(dayTimestamp).format()
         return await this.clockInModel.createQueryBuilder("clock")
         .where("clock.patient_id = :userid", {userid})
         .andWhere("clock.lesson_id = :lessonId", {lessonId})
-        .andWhere("clock.date >= :date", {date})
+        .andWhere("clock.date >= :date", {date: beginDate})
         .andWhere("clock.date <= :dayDate", {dayDate})
         .getOne()
     }

@@ -22,7 +22,21 @@ export default (appInfo: EggAppInfo) => {
   config.keys = appInfo.name + '_1620391378480_9304';
 
   // add your config here
-  config.middleware = [];
+  config.middleware = ['jwtAuth'];
+  
+  config.jwt = {
+    enable: true,
+    client: {
+      secret: 'dashakewhasadnkasnk'
+    },
+    ignore: ['/user/login']
+  }
+
+  config.jwtAuth = {
+    ignore: config.jwt.ignore,
+    redisScope: 'user',
+    accessTokenExpiresIn: 60 * 60 * 24 * 3
+  }
 
   config.security = security
 
@@ -52,8 +66,8 @@ export default (appInfo: EggAppInfo) => {
   } as ConnectionOptions;
 
   config.wxconfig = {
-    appId: 'wx103bce8601a12944',
-    secret: '3f6b345006f620c855a030dc4872d363'
+    appId: 'wxb72baa7d4b418f61',
+    secret: '57796d22db02c077e2f741f3472b0820'
   }
 
   // config.orm = {
@@ -79,3 +93,4 @@ export default (appInfo: EggAppInfo) => {
 
   return config;
 };
+

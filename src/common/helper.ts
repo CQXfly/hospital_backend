@@ -5,7 +5,7 @@ export interface IResponse {
     data: object | null
 }
 
-export function response(result: object, message = 'request success', status = 200) : IResponse {
+export function response(result: object, message = 'request success', status = 200,) : IResponse {
     return {data: result, message, status}
 }
 

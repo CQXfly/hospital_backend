@@ -57,7 +57,7 @@ export class PatientModel extends BaseModel {
         name: 'doctor_id',
         comment: '医生id',
       })
-      doctor_id: number;
+      doctor_id: string;
 
       @Column({
         type: 'varchar',

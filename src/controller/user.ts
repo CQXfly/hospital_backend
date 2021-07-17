@@ -21,7 +21,8 @@ export class UserController {
 
     try {
       const result = await this.uerService.login(wxid)
-      return response(result)
+      const token = await this.uerService.createUserToken(wxid)
+      return response({...result, token})
     } catch (error) {
       return response({}, error.message, 400)
     }
@@ -29,12 +30,42 @@ export class UserController {
 
   @Post('/update/patient')
   async patientInfoUpdate() {
-
+    
   }
 
   @Post('/update/doctor')
   async doctorInfoUpdate() {
     
+  }
+
+  @Post('/doctors')
+  async doctors(@Body() doctorids: string[] ){
+      try {
+        let r = await this.uerService.findDoctors(doctorids)
+        return response(r, "register success", 200)
+      } catch (error) {
+         return  response({}, error.message, 400)
+      }
+  }
+
+  @Post('/patients')
+  async patients(@Body() patientids: string[] ){
+    try {
+      let r = await this.uerService.findPatients(patientids)
+      return response(r, "register success", 200)
+    } catch (error) {
+       return  response({}, error.message, 400)
+    }
+  }
+
+  @Post('/bindDoctor')
+  async patientBindDoctor(@Body() patientid: string,@Body() doctorid: string) {
+    try {
+      let r = await this.uerService.bindPatient(patientid, doctorid)
+      return response(r, "register success", 200)
+    } catch (error) {
+       return  response({}, error.message, 400)
+    }
   }
 
   @Post('/register/patient')
@@ -47,8 +78,8 @@ export class UserController {
     @Body() gender?: boolean ): Promise<IResponse> {
 
     try {
-      const result = await this.uerService.reigsterPatient(wxid, age, name, address, contact, gender)
-      return response(result)
+      await this.uerService.reigsterPatient(wxid, age, name, address, contact, gender)
+      return response({}, "register success", 200)
     } catch (error) {
        return  response({}, error.message, 400)
     }
@@ -62,8 +93,8 @@ export class UserController {
     @Body() jobNumber?: string): Promise<IResponse> {
 
     try {
-      const result = await this.uerService.reigsterDoctor(wxid, name, contact, jobNumber)
-      return response(result)
+      await this.uerService.reigsterDoctor(wxid, name, contact, jobNumber)
+      return response({}, "register success", 200)
     } catch (error) {
        return  response({}, error.message, 400)
     }

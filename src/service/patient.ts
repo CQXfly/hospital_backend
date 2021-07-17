@@ -9,17 +9,19 @@ export class PatientService {
 
 
     async updateUserInfo(wxid: string, address?: string, age?: number, contact?: string) {
-        let results = await this.patientModel.find({wxID: wxid})
-        if (results.length > 0) {
-            return "go ahead"
-        }
+        let patient = await this.patientModel.findOne({wxID: wxid})
         
-        let patient = new PatientModel()
+        if (address) {
+            patient.address = address    
+        }
 
-        patient.wxID = wxid
-        patient.address = ""
-        patient.age = 123
-        patient.contact = ""
+        if (age) {
+            patient.age = age    
+        }
+
+        if (contact) {
+            patient.contact = contact
+        }
  
         let result = await this.patientModel.save(patient)
 

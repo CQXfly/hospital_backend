@@ -1,10 +1,25 @@
-import { Provide } from '@midwayjs/decorator';
+import { Provide, Plugin, Inject, Config } from '@midwayjs/decorator';
 import { InjectEntityModel } from '@midwayjs/orm';
 import { DoctorModel } from '../model/doctor'
 import { PatientModel } from '../model/patient'
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
+
+import { Jwt, JwtEggConfig } from '@waiting/egg-jwt'
+import { Context } from 'egg'
+import { JwtAuthMiddlewareConfig } from '../config/config.types'
 @Provide()
 export class UserService {
+  @Config('jwt')
+  jwtConfig: JwtEggConfig;
+
+  @Config('jwtAuth')
+  jwtAuthConfig: JwtAuthMiddlewareConfig;
+
+  @Plugin()
+  jwt: Jwt
+
+  @Inject()
+  ctx: Context
  
   @InjectEntityModel(DoctorModel)
   doctorModel: Repository<DoctorModel>;
@@ -21,17 +36,17 @@ export class UserService {
   async login(wxid: string) {
     const isPatient = await this.isPatient(wxid)
     if (isPatient) {
-      const result = await this.patientModel.findOne({wxID: wxid})
-      if (result == undefined) {
+      const userInfo = await this.patientModel.findOne({wxID: wxid})
+      if (userInfo == undefined) {
         throw new Error("havn't been user, please register first")
       }
-      return {... result, type: 1}
+      return { userInfo, type: 1}
     } else {
-      const result =  await this.doctorModel.findOne({wxID: wxid})
-      if (result == undefined) {
+      const userInfo =  await this.doctorModel.findOne({wxID: wxid})
+      if (userInfo == undefined) {
         throw new Error("havn't been user, please register first")
       }
-      return {... result, type: 2}
+      return { userInfo, type: 2}
     }
   }
 
@@ -89,15 +104,35 @@ async reigsterPatient(wxid: string,
         this.patientModel.findOne({wxID: wxid})
       ]
       )
-  } 
+  }
 
-  async fuck2(wxid: string) {
-    let [p1, p2] = await this.findUserInfo(wxid)
-    console.log(p1, p2)
-    // if (p1 == undefined) {
+  async findDoctors(doctorids: string[]) {
+    let r = await this.doctorModel.find({id: In(doctorids)})
+    return r
+  }
 
-    // } else (p2 == undefined) {
+  async findPatients(patientids: string[]) {
+    return await this.patientModel.find({id: In(patientids)})
+  }
 
-    // }
+  async bindPatient(patientid: string, doctorid: string) {
+    let results = await Promise.all([this.patientModel.findOne({id: patientid}),
+    this.doctorModel.findOne({id: doctorid})])
+    
+    if (results.indexOf(undefined) > -1) {
+      throw new Error("have no patient or doctor");
+    }
+    let patient = results[0]
+    patient.doctor_id = doctorid
+    return await this.patientModel.save(patient)
+  }
+
+  async createUserToken(wxid: string) {
+      const token: string = this.jwt.sign(
+        {wxid: '123'},
+        this.jwtConfig.client.secret,
+        {expiresIn: this.jwtAuthConfig.accessTokenExpiresIn}
+      )
+      return token
   }
 }

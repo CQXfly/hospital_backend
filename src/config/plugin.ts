@@ -9,5 +9,9 @@ export default {
   cors: {
     enable: true,
     package: 'egg-cors'
+  },
+  jwt: {
+    enable: true,
+    package: '@waiting/egg-jwt'
   }
 } as EggPlugin;
