@@ -56,9 +56,17 @@ export class UserService {
     contact?: string,
     jobNumber?: string) {
 
-    let results = await this.doctorModel.find({wxID: wxid})
+      let [results, presults] = await Promise.all(
+        [
+          this.doctorModel.find({wxID: wxid}),
+          this.patientModel.find({wxID: wxid})
+        ])
     if (results.length > 0) {
         throw new Error("has registered")
+    }
+    
+    if (presults.length > 0) {
+        throw new Error("has registered patient")
     }
     let doctor = new DoctorModel()
 
@@ -80,10 +88,18 @@ async reigsterPatient(wxid: string,
   contact?: string,
   gender?: boolean) {
 
-  let results = await this.patientModel.find({wxID: wxid})
+  let [results, dresults] = await Promise.all(
+    [
+      this.patientModel.find({wxID: wxid}),
+      this.doctorModel.find({wxID: wxid})
+    ])
   if (results.length > 0) {
       throw new Error("has registered")
   }
+  if (dresults.length > 0) {
+      throw new Error("has registered doctor")
+  }
+
   let patient = new PatientModel()
 
   patient.wxID = wxid

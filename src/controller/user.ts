@@ -79,7 +79,8 @@ export class UserController {
 
     try {
       await this.uerService.reigsterPatient(wxid, age, name, address, contact, gender)
-      return response({}, "register success", 200)
+      const token = await this.uerService.createUserToken(wxid)
+      return response({token}, "register success", 200)
     } catch (error) {
        return  response({}, error.message, 400)
     }
@@ -94,7 +95,8 @@ export class UserController {
 
     try {
       await this.uerService.reigsterDoctor(wxid, name, contact, jobNumber)
-      return response({}, "register success", 200)
+      const token = await this.uerService.createUserToken(wxid)
+      return response({token}, "register success", 200)
     } catch (error) {
        return  response({}, error.message, 400)
     }
