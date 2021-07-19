@@ -45,6 +45,9 @@ export class LessonService {
 
     async lessonDetail(lessonId: string) {
         let lesson = await this.lessonModel.findOne({id: lessonId})
+        if (lesson == undefined) {
+            throw new Error(`have no lesson check lessonID ${lessonId}`);
+        }
         return lesson
     }
 }
