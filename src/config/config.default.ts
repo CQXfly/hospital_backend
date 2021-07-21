@@ -29,7 +29,12 @@ export default (appInfo: EggAppInfo) => {
     client: {
       secret: 'dashakewhasadnkasnk'
     },
-    ignore: ['/user/login', '/user/register/doctor', '/user/register/patient']
+    ignore: [
+      '/user/login', 
+      '/user/register/doctor', 
+      '/user/register/patient', 
+      '/user/getOpenid'
+    ]
   }
 
   config.jwtAuth = {
