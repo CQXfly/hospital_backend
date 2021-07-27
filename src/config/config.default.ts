@@ -71,8 +71,8 @@ export default (appInfo: EggAppInfo) => {
   } as ConnectionOptions;
 
   config.wxconfig = {
-    appId: 'wxb72baa7d4b418f61',
-    secret: '57796d22db02c077e2f741f3472b0820'
+    appId: 'wx31327e7be6fcf2f0',
+    secret: '659c6b30f15d9acd35faa8a43c9ff065'
   }
 
   // config.orm = {

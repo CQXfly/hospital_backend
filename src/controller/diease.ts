@@ -15,7 +15,7 @@ export class DieaseController {
   dieaseService: DieaseService;
 
   @Post('/uploadPhoto')
-  async uploadPhoto(@Body() photos: string[]) {
+  async uploadPhoto(@Body() photos: string[], dieaseId: string) {
 
   }
 
