@@ -127,6 +127,11 @@ async reigsterPatient(wxid: string,
     return r
   }
 
+  async findAllPatientsByDoctor(doctorid: string) {
+    let patients = await this.patientModel.createQueryBuilder("patient").where('patient.doctor_id = :doctorid', {doctorid}).getMany()
+    return await this.findPatients(patients.map(item => { return item.id }))
+  }
+
   async findPatients(patientids: string[]) {
     return await this.patientModel.find({id: In(patientids)})
   }

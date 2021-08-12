@@ -42,7 +42,7 @@ export class UserController {
   async doctors(@Body() doctorids: string[] ){
       try {
         let r = await this.uerService.findDoctors(doctorids)
-        return response(r, "register success", 200)
+        return response(r)
       } catch (error) {
          return  response({}, error.message, 400)
       }
@@ -52,7 +52,7 @@ export class UserController {
   async patients(@Body() patientids: string[] ){
     try {
       let r = await this.uerService.findPatients(patientids)
-      return response(r, "register success", 200)
+      return response(r)
     } catch (error) {
        return  response({}, error.message, 400)
     }
@@ -62,7 +62,7 @@ export class UserController {
   async patientBindDoctor(@Body() patientid: string,@Body() doctorid: string) {
     try {
       let r = await this.uerService.bindPatient(patientid, doctorid)
-      return response(r, "register success", 200)
+      return response(r)
     } catch (error) {
        return  response({}, error.message, 400)
     }
@@ -97,6 +97,16 @@ export class UserController {
       await this.uerService.reigsterDoctor(wxid, name, contact, jobNumber)
       const token = await this.uerService.createUserToken(wxid)
       return response({token}, "register success", 200)
+    } catch (error) {
+       return  response({}, error.message, 400)
+    }
+  }
+
+  @Post('/doctor/patients')
+  async findPatinentsGroupByDoctor(@Body() doctorId: string ){
+    try {
+      let r = await this.uerService.findAllPatientsByDoctor(doctorId)
+      return response(r)
     } catch (error) {
        return  response({}, error.message, 400)
     }

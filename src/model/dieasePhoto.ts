@@ -9,9 +9,9 @@ import {
 import { BaseModel } from './base';
 
 @EntityModel({
-    name: 'diease_photo',
+    name: 'disease_photo',
 })
-export class DieasePhotoModel extends BaseModel {
+export class DiseasePhotoModel extends BaseModel {
     @PrimaryGeneratedColumn({
         type: 'integer',
       })
@@ -19,10 +19,10 @@ export class DieasePhotoModel extends BaseModel {
 
       @Column({
         type: 'integer',
-        name: 'diease_id',
-        comment: 'diease_id',
+        name: 'disease_id',
+        comment: 'disease_id',
       })
-      diease_id: string;
+      disease_id: string;
 
       @Column({
         type: 'varchar',

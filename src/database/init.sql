@@ -20,11 +20,11 @@ CREATE TABLE `clockin` (
 -- ----------------------------
 -- Table structure for diease
 -- ----------------------------
-DROP TABLE IF EXISTS `diease`;
-CREATE TABLE `diease` (
+DROP TABLE IF EXISTS `disease`;
+CREATE TABLE `disease` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `doctor_id` int NULL DEFAULT NULL,
-  `paient_id` int NOT NULL,
+  `patient_id` int NOT NULL,
   `type` varchar(50) NOT NULL,
   `info` varchar(100) NOT NULL,
   `stage` varchar(50) NOT NULL,
@@ -114,10 +114,10 @@ CREATE TABLE `permission` (
 -- ----------------------------
 -- Table structure for disease_photo
 -- ----------------------------
-DROP TABLE IF EXISTS `diease_photo`;
-CREATE TABLE `diease_photo` (
+DROP TABLE IF EXISTS `disease_photo`;
+CREATE TABLE `disease_photo` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `diease_id` int NOT NULL,
+  `disease_id` int NOT NULL,
   `url` varchar(255) NULL DEFAULT NULL,
   `created_at` timestamp NOT NULL  DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

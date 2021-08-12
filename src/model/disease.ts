@@ -9,9 +9,9 @@ import {
 import { BaseModel } from './base';
 
 @EntityModel({
-    name: 'diease',
+    name: 'disease',
 })
-export class DieaseModel extends BaseModel {
+export class DiseaseModel extends BaseModel {
     @PrimaryGeneratedColumn({
         type: 'integer',
       })
@@ -26,10 +26,10 @@ export class DieaseModel extends BaseModel {
 
       @Column({
         type: 'integer',
-        name: 'paient_id',
+        name: 'patient_id',
         comment: '病人id',
       })
-      paient_id: string;
+      patient_id: string;
 
       @Column({
         type: 'varchar',

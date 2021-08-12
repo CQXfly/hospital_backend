@@ -25,9 +25,9 @@ export class LessonService {
 
     async lesson(page: number = 0, limitSize = 6) {
         let lessons =  await this.lessonModel
-        .createQueryBuilder("user")
+        .createQueryBuilder("lesson")
         .select()
-        .orderBy("user.id")
+        .orderBy("lesson.id")
         .offset((page - 1) * limitSize )
         .limit(limitSize)
         .getMany()
