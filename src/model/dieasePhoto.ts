@@ -11,7 +11,7 @@ import { BaseModel } from './base';
 @EntityModel({
     name: 'diease_photo',
 })
-export class DieaseModel extends BaseModel {
+export class DieasePhotoModel extends BaseModel {
     @PrimaryGeneratedColumn({
         type: 'integer',
       })

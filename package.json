@@ -19,6 +19,7 @@
     "egg-scripts": "^2.10.0",
     "moment": "^2.29.1",
     "mysql2": "^2.2.5",
+    "qcloud-cos-sts": "^3.0.6",
     "typeorm": "^0.2.32"
   },
   "devDependencies": {

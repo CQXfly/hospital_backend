@@ -15,5 +15,6 @@ export class ContainerLifeCycle implements ILifeCycle {
   @App()
   app: Application;
 
-  async onReady() {}
+  async onReady() { 
+  }
 }

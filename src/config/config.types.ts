@@ -20,5 +20,6 @@ declare module 'egg' {
         jwt: JwtEggConfig
         jwtAuth: JwtAuthMiddlewareConfig
         pkhJson: NpmPkg
+        cossts: any
     }
 }
