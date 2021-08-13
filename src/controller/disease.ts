@@ -46,7 +46,7 @@ export class DiseaseController {
     @Body() dieaseId?: string, 
     @Body() doctorId?: string
     ) {
-      await this.diseaseService.updateDiease(patientId, dieaseId, doctorId, info, stage, type)
-      return response({})
+      let r = await this.diseaseService.updateDiease(patientId, dieaseId, doctorId, info, stage, type)
+      return response(r)
   }
 }

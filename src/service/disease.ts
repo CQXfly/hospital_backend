@@ -42,6 +42,7 @@ export class DiseaseService {
     }
 
     async updateDiease(patient_id: string, did?: string, doctorId?: string, info?: string, stage?: string, type?: string) {
+        let id = ""
         if (did == undefined) {
             //creaIe
             let dmodel = new DiseaseModel()
@@ -49,13 +50,17 @@ export class DiseaseService {
             dmodel.stage = stage
             dmodel.type = type
             dmodel.patient_id = patient_id
-            this.diseaseModel.save(dmodel)
+            let rr = await this.diseaseModel.save(dmodel)
+            id = rr.id
         } else {
             console.log(info)
             let d = await this.diseaseModel.findOne({id: did})
             
-            this.diseaseModel.save(d)
+            await this.diseaseModel.save(d)
+            id = did
         }
+
+        return {"diseaseId": id}
     }
 
     async paitientsByDoctor(doctorId: string) {
