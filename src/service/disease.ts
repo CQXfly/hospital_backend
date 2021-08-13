@@ -18,8 +18,13 @@ export class DiseaseService {
     dieasePhotoModel: Repository<DiseasePhotoModel>;
 
     async getDiseases(patientId: string) {
-        let disease = await this.diseaseModel.createQueryBuilder("disease").where('disease.patient_id = :patientId', { patientId }).getMany()
-        return disease
+        let diseases = await this.diseaseModel.createQueryBuilder("disease").where('disease.patient_id = :patientId', { patientId }).getMany()
+        let result = []
+        for (const disease of diseases) {
+            let photos = await this.getPhotos(disease.id)
+            result.push({...disease, photos})
+        }
+        return result
     }
 
     async updatePhotos(photos: string[], dieaseId: string) {
@@ -32,8 +37,8 @@ export class DiseaseService {
     }
 
     async getPhotos(diseaseId: string) {
-        let photos = await this.dieasePhotoModel.createQueryBuilder("disease_photo").where('disease_photo.dieaseId = :diseaseId', { diseaseId }).getMany()
-        return photos
+        let photos = await this.dieasePhotoModel.createQueryBuilder("disease_photo").select(["disease_photo.url"]).where('disease_photo.disease_id = :diseaseId', { diseaseId }).getMany()
+        return photos.map(item => {return item.url})
     }
 
     async updateDiease(patient_id: string, did?: string, doctorId?: string, info?: string, stage?: string, type?: string) {
