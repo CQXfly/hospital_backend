@@ -50,6 +50,7 @@ export class UserService {
     }
   }
 
+
   async reigsterDoctor(
     wxid: string, 
     name: string,
@@ -78,6 +79,70 @@ export class UserService {
     doctor.contact = contact
     let result = await this.doctorModel.save(doctor)
     return result
+}
+
+async updateDoctor(
+  wxid: string, 
+  name: string,
+  contact?: string,
+  jobNumber?: string) {
+    let f = await this.doctorModel.findOne({wxID: wxid})
+    if (f == undefined) {
+      throw new Error("hasn't registered")
+    }
+    let doctor = new DoctorModel()
+    if (contact != undefined) {
+      doctor.contact = contact  
+    }
+    
+    if (jobNumber != undefined) {
+      doctor.jobNumber = jobNumber   
+    }
+
+    if (name != undefined) {
+      doctor.name = name   
+    }
+    
+    this.doctorModel.update({wxID: wxid}, doctor)
+  }
+
+async updatePatient(
+  wxid: string,
+  age?: number,
+  name?: string,
+  address?: string,
+  contact?: string,
+  gender?: boolean
+) {
+  let f = await this.patientModel.findOne({wxID: wxid})
+  if (f == undefined) {
+    throw new Error("hasn't registered")
+  }
+
+  let patient = new PatientModel()
+
+  patient.wxID = wxid
+  if (age != undefined) {
+    patient.age = age  
+  }
+
+  if (address != undefined) {
+    patient.address = address  
+  }
+  
+  if (contact != undefined) {
+    patient.contact = contact  
+  }
+  
+  if (gender != undefined) {
+    patient.gender = gender  
+  }
+  
+  if (name != undefined) {
+    patient.name = name   
+  }
+  
+  this.patientModel.update({wxID: wxid}, patient)
 }
 
 
