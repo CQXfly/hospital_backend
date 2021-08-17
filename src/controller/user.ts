@@ -31,30 +31,30 @@ export class UserController {
   @Post('/update/patient')
   async patientInfoUpdate(
     @Body() wxid: string, 
-    @Body() age: number,
-    @Body() name: string,
+    @Body() age?: number,
+    @Body() name?: string,
     @Body() address?: string,
     @Body() contact?: string,
     @Body() gender?: boolean
     ) {
       try {
-        await this.uerService.updatePatient(wxid, age, name, address, contact, gender)
-        return response({}, 'update success', 200)
+        let rr = await this.uerService.updatePatient(wxid, age, name, address, contact, gender)
+        return response(rr, 'update success', 200)
       } catch (error) {
          return  response({}, error.message, 400)
       }
-  }
+  }    
 
   @Post('/update/doctor')
   async doctorInfoUpdate(
     @Body() wxid: string, 
-    @Body() name: string,
+    @Body() name?: string,
     @Body() contact?: string,
     @Body() jobNumber?: string
   ) {
     try {
-      await this.uerService.updateDoctor(wxid, name, contact, jobNumber)
-      return response({}, 'update success', 200)
+      let rr = await this.uerService.updateDoctor(wxid, name, contact, jobNumber)
+      return response(rr, 'update success', 200)
     } catch (error) {
        return  response({}, error.message, 400)
     }

@@ -103,7 +103,8 @@ async updateDoctor(
       doctor.name = name   
     }
     
-    this.doctorModel.update({wxID: wxid}, doctor)
+    await this.doctorModel.update({wxID: wxid}, doctor)
+    return await this.doctorModel.findOne({wxID: wxid})
   }
 
 async updatePatient(
@@ -142,7 +143,8 @@ async updatePatient(
     patient.name = name   
   }
   
-  this.patientModel.update({wxID: wxid}, patient)
+  await this.patientModel.update({wxID: wxid}, patient)
+  return await this.patientModel.findOne({wxID: wxid})
 }
 
 
