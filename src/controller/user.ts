@@ -1,6 +1,7 @@
 import { Inject, Controller, Provide,Post,Get, Body, Query } from '@midwayjs/decorator';
 import { Context } from 'egg';
 import { IResponse, response } from '../common/helper';
+import { DiseaseService } from '../service/disease';
 // import { Redis } from 'ioredis'
 import { UserService } from '../service/user';
 
@@ -15,6 +16,9 @@ export class UserController {
 
   @Inject()
   uerService: UserService;
+
+  @Inject()
+  diseaseService: DiseaseService;
 
   @Post('/login')
   async login(@Body() wxid: string): Promise<IResponse> {
@@ -125,10 +129,28 @@ export class UserController {
   }
 
   @Post('/doctor/patients')
-  async findPatinentsGroupByDoctor(@Body() doctorId: string ){
+  async findPatientsGroupByDoctor(@Body() doctorId: string ){
     try {
       let r = await this.uerService.findAllPatientsByDoctor(doctorId)
       return response(r)
+    } catch (error) {
+       return  response({}, error.message, 400)
+    }
+  }
+
+  @Post('/patient/doctors')
+  async findDoctorsGroupByOatient(@Body() patientId: string ){
+    try {
+      let [r1, r2 ] = await Promise.all([
+        this.uerService.findDoctorByPatientId(patientId),
+        this.diseaseService.doctorsByPatient(patientId)]
+      )
+      
+      let doctorIds = r2.map(item => {return item.doctor_id})
+      doctorIds.push(r1)
+
+      let result = await this.uerService.findDoctors(doctorIds)
+      return response(result)
     } catch (error) {
        return  response({}, error.message, 400)
     }

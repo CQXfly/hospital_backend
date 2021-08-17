@@ -3,7 +3,7 @@ import { InjectEntityModel } from '@midwayjs/orm';
 import { PatientModel } from '../model/patient'
 import { DiseaseModel } from '../model/disease'
 import { DiseasePhotoModel } from "../model/dieasePhoto";
-import { getConnection, Repository } from 'typeorm';
+import { getConnection, getManager, Repository } from 'typeorm';
 
 @Provide()
 export class DiseaseService {
@@ -70,6 +70,16 @@ export class DiseaseService {
         .where("disease.doctor_id = :id", {id: doctorId}).getMany()
         console.log(paitients)
         
+    }
+
+    async doctorsByPatient(patientId: string) {
+
+        let r = await getManager().query(
+            `SELECT doctor_id, patient_id FROM disease WHERE patient_id = ${patientId}
+            AND doctor_id IS NOT NULL
+            GROUP BY doctor_id
+            `) as {doctor_id: string, patient_id: string}[]
+        return r
     }
  
     async isDocotor(wxid: string) {

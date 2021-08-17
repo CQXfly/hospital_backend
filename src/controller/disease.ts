@@ -49,4 +49,12 @@ export class DiseaseController {
       let r = await this.diseaseService.updateDiease(patientId, dieaseId, doctorId, info, stage, type)
       return response(r)
   }
+
+  @Get('/getDoctors')
+  async getDoctorsByPatientInDiseas(
+    @Query() patientId: string
+  ) {
+    let r = await this.diseaseService.doctorsByPatient(patientId)
+    return response(r)
+  }
 }

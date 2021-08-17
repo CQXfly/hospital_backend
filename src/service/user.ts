@@ -199,6 +199,15 @@ async reigsterPatient(wxid: string,
     return await this.findPatients(patients.map(item => { return item.id }))
   }
 
+  async findDoctorByPatientId(patientId: string) {
+    let patient = await this.patientModel.findOne({id: patientId})
+    
+    return patient.doctor_id
+    // patient.doctor_id
+    // disease---> doctor
+    // return await this.findPatients(patients.map(item => { return item.id }))
+  }
+
   async findPatients(patientids: string[]) {
     return await this.patientModel.find({id: In(patientids)})
   }
