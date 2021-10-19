@@ -156,6 +156,26 @@ export class UserController {
     }
   }
 
+  @Get('/doctor/patient/DetailInfo')
+  async findPatientDetailsGroupByDoctor(@Query() doctorId: string, @Query() patientId: string ){
+    try {
+      if (doctorId == undefined || patientId == undefined) {
+        return response({}, "input correct doctorId or patientId", 400)
+      }
+      let r = await this.uerService.findAllPatientsByDoctor(doctorId)
+      let info = r.find(v=> {
+        return v.id == `${patientId}`
+      })
+      if ( info != undefined) {
+        return response(info)
+      } else {
+        return  response({}, "no permission", 400)
+      }
+    } catch (error) {
+       return  response({}, error.message, 400)
+    }
+  }
+
   @Get('/getOpenid')
   async openId(
     @Query() code: string

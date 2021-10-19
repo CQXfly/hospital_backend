@@ -34,7 +34,8 @@ export default (appInfo: EggAppInfo) => {
       '/user/register/doctor', 
       '/user/register/patient', 
       '/user/getOpenid',
-      '/sts/sts'
+      '/sts/sts',
+      '/home'
     ]
   }
 

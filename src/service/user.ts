@@ -232,4 +232,9 @@ async reigsterPatient(wxid: string,
       )
       return token
   }
+
+  async findPatient(patientId: string) {
+    const userInfo = await this.patientModel.findOne({id: patientId})
+    return userInfo
+  }
 }
