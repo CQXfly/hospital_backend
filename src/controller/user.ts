@@ -104,9 +104,9 @@ export class UserController {
     @Body() gender?: boolean ): Promise<IResponse> {
 
     try {
-      let info = await this.uerService.reigsterPatient(wxid, age, name, address, contact, gender)
+      let userInfo = await this.uerService.reigsterPatient(wxid, age, name, address, contact, gender)
       const token = await this.uerService.createUserToken(wxid)
-      return response({token, ...info}, "register success", 200)
+      return response({token, userInfo}, "register success", 200)
     } catch (error) {
        return  response({}, error.message, 400)
     }
@@ -120,9 +120,9 @@ export class UserController {
     @Body() jobNumber?: string): Promise<IResponse> {
 
     try {
-      let info = await this.uerService.reigsterDoctor(wxid, name, contact, jobNumber)
+      let userInfo = await this.uerService.reigsterDoctor(wxid, name, contact, jobNumber)
       const token = await this.uerService.createUserToken(wxid)
-      return response({token, ...info}, "register success", 200)
+      return response({token, userInfo}, "register success", 200)
     } catch (error) {
        return  response({}, error.message, 400)
     }
