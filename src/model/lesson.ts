@@ -39,6 +39,13 @@ export class LessonModel extends BaseModel {
 
       @Column({
         type: 'varchar',
+        name: 'category',
+        comment: '分类',
+      })
+      category: string;
+
+      @Column({
+        type: 'varchar',
         name: 'title',
         comment: '课程标题',
       })

@@ -62,6 +62,7 @@ CREATE TABLE `lesson` (
   `video_length` int unsigned NOT NULL DEFAULT 0,
   `video_url` varchar(255) NOT NULL,
   `image_url` varchar(255) NOT NULL,
+  `category` varchar(50),
   `title` varchar(50)  NOT NULL,
   `info` text NOT NULL,
   `created_at` timestamp NOT NULL  DEFAULT CURRENT_TIMESTAMP,
@@ -119,6 +120,18 @@ CREATE TABLE `disease_photo` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `disease_id` int NOT NULL,
   `url` varchar(255) NULL DEFAULT NULL,
+  `created_at` timestamp NOT NULL  DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-- ----------------------------
+-- Table structure for lesson_category
+-- ----------------------------
+DROP TABLE IF EXISTS `lesson_category`;
+CREATE TABLE `lesson_category` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `lessonId` int NOT NULL,
+  `category` varchar(255) NULL DEFAULT NULL,
   `created_at` timestamp NOT NULL  DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)

@@ -19,10 +19,21 @@ export class LessonController {
         @Body() info: string, 
         @Body() video_url: string, 
         @Body() image_url: string, 
-        @Body() video_duration: number
+        @Body() video_duration: number,
+        @Body() category: string,
         ) : Promise<IResponse> {
         try {
-            let result = await this.lessonService.addLesson(title,image_url, video_url, info, video_duration)
+            let result = await this.lessonService.addLesson(title, category, image_url, video_url, info, video_duration)
+            return response(result) 
+        } catch (error) {
+            return response({}, error.message, 400)
+        }
+    }
+
+    @Get('/categoryList')
+    async categoryList(@Query() page: number ) :Promise<IResponse> {
+        try {
+            let result = await this.lessonService.getAllLessonCategory()
             return response(result) 
         } catch (error) {
             return response({}, error.message, 400)
@@ -30,9 +41,16 @@ export class LessonController {
     }
 
     @Get('/list')
-    async list(@Query() page: number ) :Promise<IResponse> {
+    async list(@Query() page: number, @Query() category: string ) :Promise<IResponse> {
         try {
-            let result = await this.lessonService.lesson(page)
+            if (category === "all" || category == undefined) {
+                category = ""
+            }
+
+            if (page == undefined || page <= 0) {
+                page = 1
+            }
+            let result = await this.lessonService.lesson(category, page)
             return response(result) 
         } catch (error) {
             return response({}, error.message, 400)

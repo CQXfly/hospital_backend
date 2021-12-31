@@ -1,7 +1,7 @@
 import { Provide } from '@midwayjs/decorator'
 import { InjectEntityModel } from '@midwayjs/orm';
 import { LessonModel } from '../model/lesson'
-import { Repository } from 'typeorm';
+import { Repository, getManager } from 'typeorm';
 
 @Provide()
 export class LessonService {
@@ -13,20 +13,21 @@ export class LessonService {
 
     }
 
-    async addLesson(title: string, image_url: string, video_url: string,info: string, video_duration: number ) {
+    async addLesson(title: string, category: string, image_url: string, video_url: string,info: string, video_duration: number ) {
         try {
-            let result = await this.lessonModel.save({videoUrl: video_url, info: info, title: title, imageUrl: image_url, videoDuration: video_duration})
-            return result 
+            let result = await this.lessonModel.save({videoUrl: video_url, info: info, title: title, imageUrl: image_url, videoDuration: video_duration , category})
+            return {result} 
         } catch (error) {
             return {}
         }
         
     }
 
-    async lesson(page: number = 0, limitSize = 6) {
+    async lesson(category: string, page: number = 0, limitSize = 6) {
         let lessons =  await this.lessonModel
         .createQueryBuilder("lesson")
         .select()
+        .where("lesson.category = :category", {category})
         .orderBy("lesson.id")
         .offset((page - 1) * limitSize )
         .limit(limitSize)
@@ -41,6 +42,14 @@ export class LessonService {
             ele.title = e.title
             return ele
         })
+    }
+
+    async getAllLessonCategory() {
+        let r = await getManager().query(
+            `SELECT category FROM lesson
+            GROUP BY category
+            `) as {category: string}[]
+        return r.map((val) => { if (val.category === "")  { return "all" } else { return val.category}})
     }
 
     async lessonDetail(lessonId: string) {
