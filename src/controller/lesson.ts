@@ -31,7 +31,7 @@ export class LessonController {
     }
 
     @Get('/categoryList')
-    async categoryList(@Query() page: number ) :Promise<IResponse> {
+    async categoryList() :Promise<IResponse> {
         try {
             let result = await this.lessonService.getAllLessonCategory()
             return response(result) 
@@ -43,10 +43,6 @@ export class LessonController {
     @Get('/list')
     async list(@Query() page: number, @Query() category: string ) :Promise<IResponse> {
         try {
-            if (category === "all" || category == undefined) {
-                category = ""
-            }
-
             if (page == undefined || page <= 0) {
                 page = 1
             }

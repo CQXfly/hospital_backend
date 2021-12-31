@@ -23,7 +23,26 @@ export class LessonService {
         
     }
 
-    async lesson(category: string, page: number = 0, limitSize = 6) {
+    async lesson(category: string, page: number = 1, limitSize = 6) {
+        if (category == undefined) {
+            let lessons =  await this.lessonModel
+            .createQueryBuilder("lesson")
+            .select()
+            .orderBy("lesson.id")
+            .offset((page - 1) * limitSize )
+            .limit(limitSize)
+            .getMany()
+            
+            return lessons.map(e=>{
+                let ele : any = {}
+                ele.updatedAt = e.updatedAt
+                ele.id = e.id
+                ele.imageUrl = e.imageUrl
+                ele.videoDuration = e.videoDuration
+                ele.title = e.title
+                return ele
+            })
+        }
         let lessons =  await this.lessonModel
         .createQueryBuilder("lesson")
         .select()
@@ -49,7 +68,7 @@ export class LessonService {
             `SELECT category FROM lesson
             GROUP BY category
             `) as {category: string}[]
-        return r.map((val) => { if (val.category === "")  { return "all" } else { return val.category}})
+        return r.map((val) => { if (val.category === "")  { return "未分类" } else { return val.category}})
     }
 
     async lessonDetail(lessonId: string) {
